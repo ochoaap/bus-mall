@@ -3,15 +3,13 @@
 var products = [];
 var totalClicksAllowed = 25;
 var clicks = 0;
-var vote = 0;
-var myContainer = document.getElementById('container');
+var container = document.getElementById('container');
+var results = document.getElementById('results');
 
 
 
 
 
-// creat consturctor for products
-// has following - name of product and file path of image
 
 function Product(name) {
   this.name = name;
@@ -22,11 +20,6 @@ function Product(name) {
   products.push(this);
 }
 
-
-
-
-// create an algorithm that will randomly genereate three photos of the products
-// attach event listener to section in html
 
 function randomProduct() {
   return products[Math.floor(Math.random() * products.length)];
@@ -58,11 +51,12 @@ new Product('wine-glass');
 
 function renderProducts() {
   var productArr = [];
+  console.log('renderProducts', productArr);
   var list = document.getElementById('photos');
   productArr.push(randomProduct());
   productArr.push(randomProduct());
   productArr.push(randomProduct());
-
+  list.innerHTML = '';
   for (var i = 0; i < 3; i++) {
     var newLi = document.createElement('li');
     var image = document.createElement('img');
@@ -71,37 +65,38 @@ function renderProducts() {
     newLi.appendChild(image);
     list.appendChild(newLi);
   }
+
 }
 
 
+function renderResults() {
+  for (var i = 0; i < products.length; i++) {
+    var li = document.createElement('li');
+    li.tectcontent = `${products[i].name} had ${products[i].clicks} clicks, and the user saw them ${products[i].views}.`;
+    results.appendChild;
 
-
-renderProducts();
-
-
-// user clicks prompts generation of new images
-
+  }
+}
 
 function handleClick(event) {
-  var clickedProduct = event.target.productArr;
+  console.log('click', event.target.name);
   clicks++;
-
-  for (var j = 0; j < products.length; j++) {
-    if (clickedProduct === products[j].name) {
-      products[j].vote++;
+  if (clicks !== totalClicksAllowed) {
+    var clickedProduct = event.target.name;
+    for (var j = 0; j < products.length; j++) {
+      if (clickedProduct === products[j].name) {
+        products[j].vote++;
+      }
     }
-  }
-  renderProducts();
-  if (clicks === totalClicksAllowed) {
-    myContainer.removeEventListner('click', handleClick);
-  }
+    renderProducts();
 
+  }
+  else if (clicks === totalClicksAllowed){
+    container.removeEventListner('click', handleClick);
+    renderResults;
+  }
 }
 
-myContainer.addEventListener('click', handleClick);
-
-// 25 rounds by default
-// report of results after voting has ended
-// remove listener once voting has concluded.
-// add button with text View Results that will dsiplay the results showing votes received, number of times seen
-
+container.addEventListener('click', handleClick);
+renderProducts();
+container.removeEventListner('click', handleClick);
