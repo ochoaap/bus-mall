@@ -1,3 +1,37 @@
-header {
-  color: blue;
+
+body {
+  background-color: cornflowerblue;
+}
+
+h1 {
+  text-align: center;
+  font-size: 75px;
+  font-style: oblique;
+
+}
+
+h2{
+  text-align: center;
+  font-size: 37px;
+  font-variant: small-caps;
+}
+main {
+  border: solid black;
+  align-items: center;
+
+}
+
+section, ul{
+  display: list-item;
+  
+  
+}
+
+#photos {
+  display: inline-block;
+  width: 25%;
+}
+
+button {
+  display: inline-block;
 }
