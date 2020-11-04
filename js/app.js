@@ -5,8 +5,7 @@ var totalClicksAllowed = 25;
 var clicks = 0;
 var container = document.getElementById('container');
 var results = document.getElementById('results');
-
-
+var button = document.getElementById('button');
 
 
 
@@ -15,8 +14,7 @@ function Product(name) {
   this.name = name;
   this.src = `image/${name}.jpg`;
   this.views = 0;
-  this.click = 0;
-  this.votes = 0;
+  this.clicks = 0;
   products.push(this);
 }
 
@@ -53,50 +51,62 @@ function renderProducts() {
   var productArr = [];
   console.log('renderProducts', productArr);
   var list = document.getElementById('photos');
-  productArr.push(randomProduct());
-  productArr.push(randomProduct());
-  productArr.push(randomProduct());
+  // productArr.push(randomProduct());
+  // productArr.push(randomProduct());
+  // productArr.push(randomProduct());
+  var prodOne = randomProduct();
+  var prodTwo = randomProduct();
+  var prodThree = randomProduct();
+  while (prodOne === prodTwo || prodThree === prodTwo || prodOne === prodThree) {
+    prodTwo = randomProduct();
+    prodThree = randomProduct();
+    console.log('duplicatefound');
+  }
+  productArr.push(prodOne, prodTwo, prodThree);
   list.innerHTML = '';
   for (var i = 0; i < 3; i++) {
     var newLi = document.createElement('li');
     var image = document.createElement('img');
     image.src = productArr[i].src;
     image.height = '300';
+    image.id = productArr[i].name;
     newLi.appendChild(image);
     list.appendChild(newLi);
+    productArr[i].views++;
   }
 
 }
 
 
 function renderResults() {
+  console.log(products);
   for (var i = 0; i < products.length; i++) {
     var li = document.createElement('li');
-    li.tectcontent = `${products[i].name} had ${products[i].clicks} clicks, and the user saw them ${products[i].views}.`;
-    results.appendChild;
-
+    li.textContent = `${products[i].name} had ${products[i].clicks} clicks, and the user saw them ${products[i].views}.`;
+    results.appendChild(li);
   }
 }
 
+
 function handleClick(event) {
-  console.log('click', event.target.name);
+  console.log(event.target.id);
   clicks++;
   if (clicks !== totalClicksAllowed) {
-    var clickedProduct = event.target.name;
+    var clickedProduct = event.target.id;
     for (var j = 0; j < products.length; j++) {
       if (clickedProduct === products[j].name) {
-        products[j].vote++;
+        products[j].clicks++;
       }
     }
     renderProducts();
 
   }
-  else if (clicks === totalClicksAllowed){
-    container.removeEventListner('click', handleClick);
-    renderResults;
+  else if (clicks === totalClicksAllowed) {
+    container.removeEventListener('click', handleClick);
+    button.addEventListener('click', renderResults);
+    // renderResults();
   }
 }
 
 container.addEventListener('click', handleClick);
 renderProducts();
-container.removeEventListner('click', handleClick);
