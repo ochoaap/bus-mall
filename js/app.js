@@ -108,5 +108,11 @@ function handleClick(event) {
   }
 }
 
+
+
+
+
 container.addEventListener('click', handleClick);
 renderProducts();
+
+
