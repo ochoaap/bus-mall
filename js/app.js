@@ -6,9 +6,10 @@ var clicks = 0;
 var container = document.getElementById('container');
 var results = document.getElementById('results');
 var button = document.getElementById('button');
-
-
-
+var productArr = [];
+var imageOneEl = document.getElementById('one');
+var imageTwoEl = document.getElementById('two');
+var imageThreeEl = document.getElementById('three');
 
 function Product(name) {
   this.name = name;
@@ -20,7 +21,7 @@ function Product(name) {
 
 
 function randomProduct() {
-  return products[Math.floor(Math.random() * products.length)];
+  return Math.floor(Math.random() * products.length);
 }
 
 
@@ -45,35 +46,34 @@ new Product('usb');
 new Product('water-can');
 new Product('wine-glass');
 
-
+function populateProductArr() {
+  while (productArr.length > 0) {
+    productArr.pop();
+  }
+  while (productArr.length < 6) {
+    var uniqueProduct = randomProduct();
+    while (productArr.includes(uniqueProduct)) {
+      uniqueProduct = randomProduct();
+    }
+    productArr.push(uniqueProduct);
+  }
+  console.log(productArr);
+}
 
 function renderProducts() {
-  var productArr = [];
-  console.log('renderProducts', productArr);
-  var list = document.getElementById('photos');
-  // productArr.push(randomProduct());
-  // productArr.push(randomProduct());
-  // productArr.push(randomProduct());
-  var prodOne = randomProduct();
-  var prodTwo = randomProduct();
-  var prodThree = randomProduct();
-  while (prodOne === prodTwo || prodThree === prodTwo || prodOne === prodThree) {
-    prodTwo = randomProduct();
-    prodThree = randomProduct();
-    console.log('duplicatefound');
-  }
-  productArr.push(prodOne, prodTwo, prodThree);
-  list.innerHTML = '';
-  for (var i = 0; i < 3; i++) {
-    var newLi = document.createElement('li');
-    var image = document.createElement('img');
-    image.src = productArr[i].src;
-    image.height = '300';
-    image.id = productArr[i].name;
-    newLi.appendChild(image);
-    list.appendChild(newLi);
-    productArr[i].views++;
-  }
+  populateProductArr();
+  imageOneEl.src = products[productArr[0]].src;
+  imageOneEl.alt = products[productArr[0]].name;
+  products[productArr[0]].views++;
+
+  imageTwoEl.src = products[productArr[1]].src;
+  imageTwoEl.alt = products[productArr[1]].name;
+  products[productArr[1]].views++;
+
+  imageThreeEl.src = products[productArr[2]].src;
+  imageThreeEl.alt = products[productArr[2]].name;
+  products[productArr[2]].views++;
+
 
 }
 
@@ -87,12 +87,12 @@ function renderResults() {
   }
 }
 
+renderProducts();
 
 function handleClick(event) {
-  console.log(event.target.id);
   clicks++;
   if (clicks !== totalClicksAllowed) {
-    var clickedProduct = event.target.id;
+    var clickedProduct = event.target.alt;
     for (var j = 0; j < products.length; j++) {
       if (clickedProduct === products[j].name) {
         products[j].clicks++;
@@ -112,7 +112,7 @@ function handleClick(event) {
 
 
 
+
 container.addEventListener('click', handleClick);
-renderProducts();
 
 
