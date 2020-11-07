@@ -3,6 +3,9 @@
 var products = [];
 var totalClicksAllowed = 25;
 var clicks = 0;
+var clicksArray = [];
+var viewsArray = [];
+var namesArray = [];
 var container = document.getElementById('container');
 var results = document.getElementById('results');
 var button = document.getElementById('button');
@@ -10,7 +13,8 @@ var productArr = [];
 var imageOneEl = document.getElementById('one');
 var imageTwoEl = document.getElementById('two');
 var imageThreeEl = document.getElementById('three');
-var ctx = document.getElementById('myChart');
+
+
 function Product(name) {
   this.name = name;
   this.src = `image/${name}.jpg`;
@@ -24,30 +28,40 @@ function randomProduct() {
   return Math.floor(Math.random() * products.length);
 }
 
+var productResults = localStorage.getItem('productResults');
 
-new Product('bag');
-new Product('banana');
-new Product('bathroom');
-new Product('boots');
-new Product('breakfast');
-new Product('bubblegum');
-new Product('chair');
-new Product('cthulhu');
-new Product('dog-duck');
-new Product('dragon');
-new Product('pen');
-new Product('pet-sweep');
-new Product('scissors');
-new Product('shark');
-new Product('sweep');
-new Product('tauntaun');
-new Product('unicorn');
-new Product('usb');
-new Product('water-can');
-new Product('wine-glass');
+if (productResults) {
+  var parseProductResults = JSON.parse(productResults);
+  console.log(parseProductResults);
+  products = parseProductResults;
+} else {
 
+
+
+  new Product('bag');
+  new Product('banana');
+  new Product('bathroom');
+  new Product('boots');
+  new Product('breakfast');
+  new Product('bubblegum');
+  new Product('chair');
+  new Product('cthulhu');
+  new Product('dog-duck');
+  new Product('dragon');
+  new Product('pen');
+  new Product('pet-sweep');
+  new Product('scissors');
+  new Product('shark');
+  new Product('sweep');
+  new Product('tauntaun');
+  new Product('unicorn');
+  new Product('usb');
+  new Product('water-can');
+  new Product('wine-glass');
+
+}
 function populateProductArr() {
-  while (productArr.length > 0) {
+  while (productArr.length > 3) {
     productArr.pop();
   }
   while (productArr.length < 6) {
@@ -55,10 +69,13 @@ function populateProductArr() {
     while (productArr.includes(uniqueProduct)) {
       uniqueProduct = randomProduct();
     }
-    productArr.push(uniqueProduct);
+    productArr.unshift(uniqueProduct);
+    console.log(uniqueProduct);
   }
   console.log(productArr);
 }
+
+
 
 function renderProducts() {
   populateProductArr();
@@ -105,33 +122,62 @@ function handleClick(event) {
     container.removeEventListener('click', handleClick);
     button.addEventListener('click', renderResults);
     // renderResults();
+    renderChart();
+
+    var stringifyResults = JSON.stringify(products);
+    localStorage.setItem('productResults',stringifyResults);
+  }
+}
+
+container.addEventListener('click', handleClick);
+
+function getData() {
+  for (var i = 0; i < products.length; i++) {
+    clicksArray.push(products[i].clicks);
+    viewsArray.push(products[i].views);
+    namesArray.push(products[i].name);
   }
 }
 
 
+function renderChart() {
+  getData();
+  var myChart = document.getElementById('myChart').getContext('2d');
+  new Chart(myChart, {
+    type: 'bar',
+    data: {
+      labels: namesArray,
+      datasets: [{
+        label: '# of Votes',
+        data: clicksArray,
+        backgroundColor:
+          'rgba(255, 99, 132, 0.2)',
 
+        borderColor:
+          'rgba(255, 99, 132, 1)',
 
+        borderWidth: 1
+      },
+      {
+        label: '# of Views',
+        data: viewsArray,
+        backgroundColor:
+          'rgba(255, 105, 132, 0.2)',
+        borderColor:
+          'rgba(255, 99, 132, 1)',
 
+        borderWidth: 1
+      }]
+    },
+    options: {
+      scales: {
+        yAxes: [{
+          ticks: {
+            beginAtZero: true
+          }
+        }]
+      }
+    }
+  });
 
-container.addEventListener('click', handleClick);
-
-
-
-var chart = new Chart(ctx, {
-  // The type of chart we want to create
-  type: 'line',
-
-  // The data for our dataset
-  data: {
-    labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
-    datasets: [{
-      label: 'My First dataset',
-      backgroundColor: 'rgb(255, 99, 132)',
-      borderColor: 'rgb(255, 99, 132)',
-      data: [0, 10, 5, 2, 20, 30, 45]
-    }]
-  },
-
-  // Configuration options go here
-  options: {}
-});
+}
