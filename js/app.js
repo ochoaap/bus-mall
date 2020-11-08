@@ -35,9 +35,6 @@ if (productResults) {
   console.log(parseProductResults);
   products = parseProductResults;
 } else {
-
-
-
   new Product('bag');
   new Product('banana');
   new Product('bathroom');
@@ -60,6 +57,7 @@ if (productResults) {
   new Product('wine-glass');
 
 }
+
 function populateProductArr() {
   while (productArr.length > 3) {
     productArr.pop();
@@ -90,8 +88,6 @@ function renderProducts() {
   imageThreeEl.src = products[productArr[2]].src;
   imageThreeEl.alt = products[productArr[2]].name;
   products[productArr[2]].views++;
-
-
 }
 
 
@@ -121,11 +117,10 @@ function handleClick(event) {
   else if (clicks === totalClicksAllowed) {
     container.removeEventListener('click', handleClick);
     button.addEventListener('click', renderResults);
-    // renderResults();
     renderChart();
 
     var stringifyResults = JSON.stringify(products);
-    localStorage.setItem('productResults',stringifyResults);
+    localStorage.setItem('productResults', stringifyResults);
   }
 }
 
@@ -151,22 +146,23 @@ function renderChart() {
         label: '# of Votes',
         data: clicksArray,
         backgroundColor:
-          'rgba(255, 99, 132, 0.2)',
+          'rgba(255, 99, 132)',
 
         borderColor:
           'rgba(255, 99, 132, 1)',
 
-        borderWidth: 1
+        borderWidth: 3
       },
       {
         label: '# of Views',
         data: viewsArray,
         backgroundColor:
-          'rgba(255, 105, 132, 0.2)',
+          'rgba(54, 162, 235, 0.2',
         borderColor:
-          'rgba(255, 99, 132, 1)',
+          'rgba(54, 175, 235, 0.2',
 
-        borderWidth: 1
+
+        borderWidth: 3
       }]
     },
     options: {
