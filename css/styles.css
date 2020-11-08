@@ -11,9 +11,11 @@ h1 {
 }
 
 img {
-  height: 300px;
-  width: 300px;
+  height: 500px;
+  width: 500px; 
 }
+
+
 
 h2{
   text-align: center;
@@ -26,18 +28,9 @@ main {
 
 }
 
-section, ul{
-  align-content: center;
-  
-  
+#container {
+  display:block;
+  margin: auto;
 }
 
-#photos {
-  display: inline-block;
-  width: 25%;
-}
-
-button {
-  display: inline-block;
-}
 
