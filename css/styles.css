@@ -31,6 +31,18 @@ main {
 #container {
   display:block;
   margin: auto;
+  border: solid red;
 }
 
 
+button {
+  background-color: darkgray;
+  display: inline;
+  margin: auto;
+}
+
+ul {
+  display: inline;
+  margin: auto;
+  float: right;
+}
