@@ -1,6 +1,6 @@
 
 body {
-  background-color: whitesmoke;
+  background-color: aliceblue;
 }
 
 h1 {
@@ -11,8 +11,10 @@ h1 {
 }
 
 img {
-  height: 500px;
-  width: 500px; 
+  height: 490px;
+  width: 490px; 
+  border-radius: 50px;
+  border: solid black;
 }
 
 
@@ -23,7 +25,6 @@ h2{
   font-variant: small-caps;
 }
 main {
-  border: solid black;
   align-items: center;
 
 }
@@ -31,18 +32,24 @@ main {
 #container {
   display:block;
   margin: auto;
-  border: solid red;
+  margin-bottom: 0px;
+  
 }
 
 
 button {
-  background-color: darkgray;
+  background-color: paleturquoise;
   display: inline;
   margin: auto;
 }
 
 ul {
   display: inline;
-  margin: auto;
-  float: right;
+  padding-left: 700px;
+}
+
+#results {
+  display: inline;
+  padding-left: 700px;
+  font-size: 20px;
 }
